@@ -88,7 +88,9 @@
     </integer-array>
 
     <string-array name="rendererResolutionNames">
+        <item>@string/resolution_one_tenth</item>
         <item>@string/resolution_quarter</item>
+        <item>@string/resolution_potato_low</item>
         <item>@string/resolution_half</item>
         <item>@string/resolution_three_quarter</item>
         <item>@string/resolution_one</item>
@@ -112,7 +114,9 @@
     </string-array>
 
     <integer-array name="rendererResolutionValues">
+        <item>14</item>  <!-- 0.10X (Res1_8X) -->
         <item>0</item>   <!-- 0.25X (Res1_4X) -->
+        <item>15</item>  <!-- 0.35X (Res3_8X) -->
         <item>1</item>   <!-- 0.5X (Res1_2X) -->
         <item>2</item>   <!-- 0.75X (Res3_4X) -->
         <item>3</item>   <!-- 1X (Res1X) -->

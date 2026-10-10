@@ -288,9 +288,21 @@ const char* TranslateCategory(Category category) {
 void TranslateResolutionInfo(ResolutionSetup setup, ResolutionScalingInfo& info) {
     info.downscale = false;
     switch (setup) {
+    case ResolutionSetup::Res1_8X:
+        // ~0.10X - 0.125X (90p/135p) Ultra-Potato benchmark mode
+        info.up_scale = 1;
+        info.down_shift = 3;
+        info.downscale = true;
+        break;
     case ResolutionSetup::Res1_4X:
         info.up_scale = 1;
         info.down_shift = 2;
+        info.downscale = true;
+        break;
+    case ResolutionSetup::Res3_8X:
+        // ~0.35X - 0.375X (270p/405p) Potato Performance mode
+        info.up_scale = 3;
+        info.down_shift = 3;
         info.downscale = true;
         break;
     case ResolutionSetup::Res1_2X:
