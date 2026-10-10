@@ -20,7 +20,13 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
-          fetch-depth: 1
+          fetch-depth: 0
+
+      - name: Unshallow vcpkg for manifest ports
+        run: |
+          if [ -d "externals/vcpkg" ]; then
+            git -C externals/vcpkg fetch --unshallow || true
+          fi
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4

@@ -178,6 +178,8 @@ android {
                     "-DENABLE_SDL2=0", // Don't use SDL
                     "-DENABLE_WEB_SERVICE=0", // Don't use telemetry
                     "-DENABLE_OPENSSL=1",
+                    "-DCITRON_TESTS=OFF",
+                    "-DBUILD_TESTING=OFF",
                     "-DBUNDLE_SPEEX=ON",
                     "-DANDROID_ARM_NEON=true", // cryptopp requires Neon to work
                     "-DCITRON_USE_BUNDLED_VCPKG=ON",
