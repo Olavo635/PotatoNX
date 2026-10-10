@@ -32,7 +32,13 @@ size_t GetStreamBufferSize(const Device& device) {
     ForEachDeviceLocalHostVisibleHeap(device, [&size](size_t index, VkMemoryHeap& heap) {
         size = (std::max)(size, heap.size);
     });
+#ifdef ANDROID
+    // POTATO-NX: Cap stream buffer size to 32 MiB on Android. This avoids huge memory spikes
+    // that cause the Android Low Memory Killer (LMK) to crash games on low RAM devices (3GB-4GB).
+    return (std::min)(Common::AlignUp(size / 32, 256), 32_MiB);
+#else
     return (std::min)(Common::AlignUp(size / 16, 256), 128_MiB);
+#endif
 }
 } // Anonymous namespace
 
@@ -86,7 +92,12 @@ void StagingBufferPool::FreeDeferred(StagingBufferRef& ref) {
 }
 
 void StagingBufferPool::TickFrame() {
+#ifdef ANDROID
+    // POTATO-NX: Recycle staging buffers twice as fast on mobile to keep RAM footprint minimal
+    static constexpr size_t LEVELS_PER_TICK = 8;
+#else
     static constexpr size_t LEVELS_PER_TICK = 4;
+#endif
     for (size_t i = 0; i < LEVELS_PER_TICK; ++i) {
         current_delete_level = (current_delete_level + 1) % NUM_LEVELS;
         ReleaseCache(MemoryUsage::DeviceLocal);

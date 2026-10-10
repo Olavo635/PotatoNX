@@ -398,7 +398,8 @@ PipelineCache::PipelineCache(Tegra::MaxwellDeviceMemoryManager& device_memory_,
         .lower_left_origin_mode = false,
         .need_declared_frag_colors = false,
         .need_fastmath_off = false,
-        .force_fragment_relaxed_precision = low_gpu_accuracy,
+        // POTATO-NX: Force FP16 RelaxedPrecision for ARM Mali GPUs (Valhall/Bifrost has 2x FP16 ALU throughput)
+        .force_fragment_relaxed_precision = low_gpu_accuracy || (driver_id == VK_DRIVER_ID_ARM_PROPRIETARY),
         .need_gather_subpixel_offset = driver_id == VK_DRIVER_ID_AMD_PROPRIETARY ||
                                        driver_id == VK_DRIVER_ID_AMD_OPEN_SOURCE ||
                                        driver_id == VK_DRIVER_ID_MESA_RADV ||

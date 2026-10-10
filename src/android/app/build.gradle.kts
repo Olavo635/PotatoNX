@@ -116,7 +116,7 @@ android {
                 signingConfigs.getByName("default")
             }
 
-            resValue("string", "app_name_suffixed", "citron-neo: The switch fell off")
+            resValue("string", "app_name_suffixed", "PotatoNX")
             isDebuggable = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -140,7 +140,7 @@ android {
         // Attaches 'debug' suffix to version and package name, allowing installation alongside the release build.
         debug {
             signingConfig = signingConfigs.getByName("default")
-            resValue("string", "app_name_suffixed", "citron-neo: The switch fell off Debug")
+            resValue("string", "app_name_suffixed", "PotatoNX Debug")
             isDebuggable = true
             isJniDebuggable = true
             versionNameSuffix = "-debug"
@@ -185,10 +185,11 @@ android {
                     "-DCITRON_ENABLE_LTO=ON",
                     "-DCMAKE_EXPORT_COMPILE_COMMANDS=ON",
                     "-DCMAKE_POLICY_VERSION_MINIMUM=3.5",
-                    "-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON"
+                    "-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON",
+                    "-DCMAKE_CXX_FLAGS_RELEASE=-O3 -fno-plt -fomit-frame-pointer"
                 )
 
-                abiFilters("arm64-v8a", "x86_64")
+                abiFilters("arm64-v8a")
             }
         }
     }

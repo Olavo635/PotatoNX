@@ -914,13 +914,14 @@ bool Device::ComputeIsOptimalAstcSupported() const {
     if (!features.features.textureCompressionASTC_LDR) {
         return false;
     }
+    // POTATO-NX OPTIMIZATION: Relax requirements for ASTC on mobile GPUs (Mali / Adreno).
+    // Native ASTC hardware texture decoding requires sampled image and transfer dst,
+    // not blit support (which mobile GPUs lack on compressed formats, causing costly CPU/compute fallbacks).
     const auto format_feature_usage{
-        VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT | VK_FORMAT_FEATURE_BLIT_SRC_BIT |
-        VK_FORMAT_FEATURE_BLIT_DST_BIT | VK_FORMAT_FEATURE_TRANSFER_SRC_BIT |
-        VK_FORMAT_FEATURE_TRANSFER_DST_BIT};
+        VK_FORMAT_FEATURE_SAMPLED_IMAGE_BIT | VK_FORMAT_FEATURE_TRANSFER_DST_BIT};
     for (const auto format : astc_formats) {
         const auto physical_format_properties{physical.GetFormatProperties(format)};
-        if ((physical_format_properties.optimalTilingFeatures & format_feature_usage) == 0) {
+        if ((physical_format_properties.optimalTilingFeatures & format_feature_usage) != format_feature_usage) {
             return false;
         }
     }
