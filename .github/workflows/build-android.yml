@@ -34,6 +34,11 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Install Host Tools (glslangValidator, ninja, nasm)
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y glslang-tools nasm ninja-build
+
       - name: Install NDK and CMake
         run: |
           yes | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses || true
